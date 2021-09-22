@@ -1,20 +1,17 @@
+import templateForm from "../templates/form.hbs";
+import templateGallery from "../templates/gallery.hbs";
+
 // Форма поиска
 // Создает DOM-элемент следующей структуры. Можно использовать шаблонизацию.
+const bodyRef = document.querySelector('body');
 
-// <form class="search-form" id="search-form">
-//   <input
-//     type="text"
-//     name="query"
-//     autocomplete="off"
-//     placeholder="Search images..."
-//   />
-// </form>
+bodyRef.insertAdjacentHTML('afterbegin', templateForm());
 
 // Галерея изображений
 // Создает DOM-элемент следующей структуры.
-// <ul class="gallery">
-//   <!-- Список <li> с карточками изображений -->
-// </ul>
+const formRef = bodyRef.querySelector('#search-form');
+
+formRef.insertAdjacentHTML('afterend', templateGallery());
 
 // Кнопка 'Load more'
 // При нажатии на кнопку Load more должна догружаться следующая порция изображений и рендериться вместе с предыдущими.
