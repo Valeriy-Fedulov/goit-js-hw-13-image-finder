@@ -37,3 +37,13 @@
 // views - количество просмотров
 // comments - количество комментариев
 // downloads - количество загрузок
+
+export function fetchImages() {
+    return fetch(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=car&page=1&per_page=12&key=8645843-73f0b565a99dd2126325d1c4b`)
+    .then(response => {
+      if (response.status !== 200) {
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
+};  
