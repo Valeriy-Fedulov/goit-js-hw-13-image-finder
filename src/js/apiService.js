@@ -38,8 +38,8 @@
 // comments - количество комментариев
 // downloads - количество загрузок
 
-export function fetchImages() {
-    return fetch(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=car&page=1&per_page=12&key=8645843-73f0b565a99dd2126325d1c4b`)
+export function fetchImages(image_type, orientation, query, page, per_page, key) {
+  return fetch(`https://pixabay.com/api/?image_type=${image_type}&orientation=${orientation}&q=${query}&page=${page}&per_page=${per_page}&key=${key}`)
     .then(response => {
       if (response.status !== 200) {
         throw new Error(response.status);
