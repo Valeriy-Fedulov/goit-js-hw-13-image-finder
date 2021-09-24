@@ -26,10 +26,7 @@ const element = document.getElementById('my-element-selector');
 
 function scrollView() {
     console.log(element);
-    element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-    });
+    element.scrollIntoView({block: "end", behavior: "smooth"});
 }
 
 // Дополнительно
@@ -41,7 +38,7 @@ const getGalleryRef = bodyRef.querySelector('.gallery');
 
 const options = {
     image_type: 'photo',
-    orientation: '',
+    orientation: 'horizontal',
     page: 0,
     per_page: 12,
     key: '8645843-73f0b565a99dd2126325d1c4b',
