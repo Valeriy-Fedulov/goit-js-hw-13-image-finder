@@ -36,36 +36,44 @@ function scrollView() {
 
 const getGalleryRef = bodyRef.querySelector('.gallery');
 
+
+console.log(getGalleryRef);
+
 const options = {
     image_type: 'photo',
-    orientation: 'horizontal',
+    orientation: '',
     page: 0,
     per_page: 12,
     key: '8645843-73f0b565a99dd2126325d1c4b',
 }
 let { image_type, orientation, query, page, per_page, key } = options;
+
 function getImage(e) {
     fetchImages(image_type, orientation, e.target.value, page=1, per_page, key)
         .then(images => {
             console.log(images);
-            const markup = images.hits.map((img) => { return templateImage(img)}).join("");
+            const markup = images.hits.map((img) => { return templateImage(img)}).join("") + '<li class="last-item"><p class="buttonLoadMore">Load more></p></li>';
             getGalleryRef.innerHTML = markup;
+            const buttonLoadMoreRef = bodyRef.querySelector('.buttonLoadMore');
+            buttonLoadMoreRef.addEventListener('click', getLoadMore);
         })
 };
 
 const searchImageRef = formRef.querySelector('.search-input');
 searchImageRef.addEventListener('input', getImage);
 
-const buttonLoadMoreRef = bodyRef.querySelector('.buttonLoadMore');
-buttonLoadMoreRef.addEventListener('click', getLoadMore);
+
+
 // buttonLoadMoreRef.addEventListener('click', scrollView);
 
 function getLoadMore() {
     fetchImages(image_type, orientation, 'cat', page += 1, per_page, key)
         .then(images => {
+            const getGalleryLastItemRef = getGalleryRef.querySelector('.last-item');
             console.log(images);
             const markup = images.hits.map((img) => { return templateImage(img) }).join("");
-            getGalleryRef.insertAdjacentHTML('beforeend', markup);
+            console.log(markup);
+            getGalleryLastItemRef.insertAdjacentHTML("beforebegin", markup);
             scrollView();
         })
     
