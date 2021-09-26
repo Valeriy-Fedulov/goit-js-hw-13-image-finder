@@ -5,6 +5,8 @@ import { fetchImages } from "./apiService.js";
 
 const debounce = require('lodash.debounce');
 
+import SimpleLightbox from "simplelightbox";
+
 const bodyRef = document.querySelector('body');
 
 bodyRef.insertAdjacentHTML('afterbegin', templateForm());
@@ -53,6 +55,7 @@ function getImage(e) {
             }
             const markup = images.hits.map((img) => { return templateImage(img)}).join("") + '<li class="last-item"><p class="buttonLoadMore"></p></li>';
             getGalleryRef.innerHTML = markup;
+            let gallery = new SimpleLightbox('.gallery a');
             const buttonLoadMoreRef = bodyRef.querySelector('.buttonLoadMore');
             buttonLoadMoreRef.addEventListener('click', getLoadMore);
         })
@@ -67,6 +70,7 @@ function getLoadMore() {
             const getGalleryLastItemRef = getGalleryRef.querySelector('.last-item');
             const markup = images.hits.map((img) => { return templateImage(img) }).join("");
             getGalleryLastItemRef.insertAdjacentHTML("beforebegin", markup);
+            let gallery = new SimpleLightbox('.gallery a');
             scrollView();
         })
     
