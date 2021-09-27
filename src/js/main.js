@@ -36,7 +36,7 @@ let bgrToggle = 1;
 function getImage(e) {
     if (e.target.value === '' || e.target.value === " ") {
         getGalleryRef.innerHTML = '';
-        bodyRef.classList.toggle("bgr");
+        if (bgrToggle === 0) bodyRef.classList.toggle("bgr");
         bgrToggle = 1;
         return;
     }
@@ -47,6 +47,7 @@ function getImage(e) {
     fetchImages(image_type, query = e.target.value, page = 1, per_page, key)
         .then(images => {
             if (images.hits.length === 0) {
+                getGalleryRef.innerHTML = '';
                 if (bgrToggle === 0) {
                     bodyRef.classList.toggle("bgr");
                     bgrToggle = 1;
