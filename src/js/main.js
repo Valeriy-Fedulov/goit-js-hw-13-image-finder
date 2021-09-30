@@ -3,9 +3,22 @@ import templateGallery from "../templates/gallery.hbs";
 import templateImage from "../templates/image.hbs";
 import { fetchImages } from "./apiService.js";
 
+// import SimpleLightbox from "simplelightbox";
+import * as basicLightbox from 'basiclightbox';
+
+function instance(e) {
+    // console.log(e.target.currentSrc);
+    basicLightbox.create(`<img src=${e} />`).show();
+}
+
+instance('https://pixabay.com/get/g8d1b0ff76bd95f3ca1d174109d6853bd09a35b67650c2843da35e7be7605362decbb1d8c5b9eeb42701a4b3bea54a18d_640.jpg');
+
+document.querySelector('button.large-img').onclick = () => {
+	instance.close();
+}
+
 const debounce = require('lodash.debounce');
 
-import SimpleLightbox from "simplelightbox";
 
 const bodyRef = document.querySelector('body');
 
@@ -14,6 +27,14 @@ bodyRef.insertAdjacentHTML('afterbegin', templateForm());
 const formRef = bodyRef.querySelector('#search-form');
 
 formRef.insertAdjacentHTML('afterend', templateGallery());
+
+
+
+const linkLargeImage = document.querySelector('.gallery');
+
+linkLargeImage.addEventListener('click', instance);
+
+
 
 const element = document.getElementById('my-element-selector');
 
@@ -56,7 +77,8 @@ function getImage(e) {
             }
             const markup = images.hits.map((img) => { return templateImage(img)}).join("") + '<li class="last-item"><p class="buttonLoadMore"></p></li>';
             getGalleryRef.innerHTML = markup;
-            let gallery = new SimpleLightbox('.gallery a');
+            // let gallery = new SimpleLightbox('.gallery a');
+
             const buttonLoadMoreRef = bodyRef.querySelector('.buttonLoadMore');
             buttonLoadMoreRef.addEventListener('click', getLoadMore);
         })
@@ -71,7 +93,7 @@ function getLoadMore() {
             const getGalleryLastItemRef = getGalleryRef.querySelector('.last-item');
             const markup = images.hits.map((img) => { return templateImage(img) }).join("");
             getGalleryLastItemRef.insertAdjacentHTML("beforebegin", markup);
-            let gallery = new SimpleLightbox('.gallery a');
+            // let gallery = new SimpleLightbox('.gallery a');
             scrollView();
         })
     
