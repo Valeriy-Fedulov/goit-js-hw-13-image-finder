@@ -8,13 +8,13 @@ import * as basicLightbox from 'basiclightbox';
 
 function instance(e) {
     // console.log(e.target.currentSrc);
-    basicLightbox.create(`<img src=${e} />`).show();
+    basicLightbox.create(`<img src='https://pixabay.com/get/g8d1b0ff76bd95f3ca1d174109d6853bd09a35b67650c2843da35e7be7605362decbb1d8c5b9eeb42701a4b3bea54a18d_640.jpg' />`).show();
 }
 
-instance('https://pixabay.com/get/g8d1b0ff76bd95f3ca1d174109d6853bd09a35b67650c2843da35e7be7605362decbb1d8c5b9eeb42701a4b3bea54a18d_640.jpg');
 
 document.querySelector('button.large-img').onclick = () => {
-	instance.close();
+    instance();
+    
 }
 
 const debounce = require('lodash.debounce');
