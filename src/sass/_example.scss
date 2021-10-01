@@ -27,12 +27,13 @@ li:last-child {
   flex-grow: 10;
 }
 
-img {
+img.link-img {
   height: 100%;
   width: 100%;
   object-fit: cover;
   vertical-align: bottom;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .photo-card {
