@@ -17,6 +17,21 @@ function instance(e) {
 //     instance();
     
 // }
+//--------------------------------------------
+   const observer = new IntersectionObserver((entries, observer) => {
+       console.log("1okey");
+       entries.forEach(entry => {
+          
+            if (entry.isIntersecting) {
+                console.log("ok");
+                getLoadMore();
+                observer.unobserve(entry.target)
+            }
+        })
+    }, {threshold: 1})
+
+observer.observe(document.querySelector('.large-img'));
+//--------------------------------------------
 
 const debounce = require('lodash.debounce');
 
@@ -82,6 +97,8 @@ function getImage(e) {
 
             const buttonLoadMoreRef = bodyRef.querySelector('.buttonLoadMore');
             buttonLoadMoreRef.addEventListener('click', getLoadMore);
+
+            
         })
 };
 
@@ -91,11 +108,19 @@ searchImageRef.addEventListener('input', debounce(getImage, 500));
 function getLoadMore() {
     fetchImages(image_type, query, page += 1, per_page, key)
         .then(images => {
+            console.log(page);
+            if (page > 1) {
             const getGalleryLastItemRef = getGalleryRef.querySelector('.last-item');
             const markup = images.hits.map((img) => { return templateImage(img) }).join("");
             getGalleryLastItemRef.insertAdjacentHTML("beforebegin", markup);
             // let gallery = new SimpleLightbox('.gallery a');
             scrollView();
+
+            // const arr = document.querySelector('.last-item')
+            //     arr.forEach(i => {
+            //         observer.observe(i)
+            //     })
+        }
         })
     
 }
