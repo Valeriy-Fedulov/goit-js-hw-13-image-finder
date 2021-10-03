@@ -6,9 +6,20 @@ import { fetchImages } from "./apiService.js";
 // import SimpleLightbox from "simplelightbox";
 import * as basicLightbox from 'basiclightbox';
 
+const prevRef = document.querySelector('.prev');
+
+function getNextImg(e) {
+    console.log(e.target);
+}
+
+
 function instance(e) {
     if (e.target.className === 'link-img') {
-        basicLightbox.create(`<img src=${e.target.dataset.largesrc} />`).show();
+        console.log(e);
+        basicLightbox.create(`<div class="navigation"><button class="prev"><</button><img src=${e.target.dataset.largesrc} /><button class="next">></button></div>`).show();
+        
+        const nextRef = document.querySelector('.next');
+        nextRef.addEventListener('click', getNextImg);
     }
 }
 
