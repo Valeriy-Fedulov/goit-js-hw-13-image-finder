@@ -26,22 +26,23 @@ function instance(e) {
 
 // document.querySelector('button.large-img').onclick = () => {
 //     instance();
-    
+
 // }
 //--------------------------------------------
-   const observer = new IntersectionObserver((entries, observer) => {
-       console.log("1okey");
-       entries.forEach(entry => {
-          
-            if (entry.isIntersecting) {
-                console.log("ok");
-                getLoadMore();
-                observer.unobserve(entry.target)
-            }
-        })
-    }, {threshold: 1})
+let observer = new IntersectionObserver((entries, observer) => {
+    console.log("observer ok");
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            console.log("entry ok");
+            getLoadMore();
+        }
+        observer.unobserve(entry.target);
+        observer.observe(document.querySelector('li:last-child'));
 
-observer.observe(document.querySelector('.large-img'));
+    })
+}, { threshold: 1 });
+
+
 //--------------------------------------------
 
 const debounce = require('lodash.debounce');
@@ -93,24 +94,25 @@ function getImage(e) {
         bgrToggle = 0;
     }
     fetchImages(image_type, query = e.target.value, page = 1, per_page, key)
-        .then(images => {
-            if (images.hits.length === 0) {
-                getGalleryRef.innerHTML = '';
-                if (bgrToggle === 0) {
-                    bodyRef.classList.toggle("bgr");
-                    bgrToggle = 1;
-                    }
-                return;
+    .then(images => {
+        if (images.hits.length === 0) {
+            getGalleryRef.innerHTML = '';
+            if (bgrToggle === 0) {
+                bodyRef.classList.toggle("bgr");
+                bgrToggle = 1;
             }
-            const markup = images.hits.map((img) => { return templateImage(img)}).join("") + '<li class="last-item"><p class="buttonLoadMore"></p></li>';
-            getGalleryRef.innerHTML = markup;
-            // let gallery = new SimpleLightbox('.gallery a');
-
-            const buttonLoadMoreRef = bodyRef.querySelector('.buttonLoadMore');
-            buttonLoadMoreRef.addEventListener('click', getLoadMore);
-
-            
-        })
+            return;
+        }
+        const markup = images.hits.map((img) => { return templateImage(img) }).join("") + '<li class="last-item"><p class="buttonLoadMore"></p></li>';
+        getGalleryRef.innerHTML = markup;
+        // let gallery = new SimpleLightbox('.gallery a');
+        
+        const buttonLoadMoreRef = bodyRef.querySelector('.buttonLoadMore');
+        buttonLoadMoreRef.addEventListener('click', getLoadMore);
+        
+        observer.observe(document.querySelector('li:last-child'));
+        // observer.observe(document.querySelector('li'));
+    });
 };
 
 const searchImageRef = formRef.querySelector('.search-input');
@@ -118,20 +120,12 @@ searchImageRef.addEventListener('input', debounce(getImage, 500));
 
 function getLoadMore() {
     fetchImages(image_type, query, page += 1, per_page, key)
-        .then(images => {
-            console.log(page);
-            if (page > 1) {
-            const getGalleryLastItemRef = getGalleryRef.querySelector('.last-item');
-            const markup = images.hits.map((img) => { return templateImage(img) }).join("");
-            getGalleryLastItemRef.insertAdjacentHTML("beforebegin", markup);
-            // let gallery = new SimpleLightbox('.gallery a');
-            scrollView();
-
-            // const arr = document.querySelector('.last-item')
-            //     arr.forEach(i => {
-            //         observer.observe(i)
-            //     })
-        }
-        })
-    
+    .then(images => {
+        console.log(page);
+        const getGalleryLastItemRef = getGalleryRef.querySelector('.last-item');
+        const markup = images.hits.map((img) => { return templateImage(img) }).join("");
+        getGalleryLastItemRef.insertAdjacentHTML("beforebegin", markup);
+        // let gallery = new SimpleLightbox('.gallery a');
+        scrollView();
+    })
 }
